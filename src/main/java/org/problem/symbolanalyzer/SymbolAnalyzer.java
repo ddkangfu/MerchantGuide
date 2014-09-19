@@ -128,6 +128,9 @@ public class SymbolAnalyzer {
 								+ "' can't be appeared after repeated '" + currentSymbol + "'");
 					}
 				}
+			} else if (currentSymbol.compareTo(nextSymbol) < 0) {//两个连续字符后不能出一个比它更大的字符
+				throw new SymbolParseException("'" + nextSymbol.getChar() 
+						+ "' can't be appeared after repeated '" + currentSymbol.getChar() + "'");
 			}
 		}
 	}
