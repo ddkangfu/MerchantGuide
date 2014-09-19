@@ -18,8 +18,11 @@ public class TestInputAnalzer {
 		ia.doAnalyse("prok is V");
 		ia.doAnalyse("pish is X");
 		ia.doAnalyse("tegj is L");
-		ia.doAnalyse("1278 is D");
-		ia.doAnalyse("#*&! is C");
+		//ia.doAnalyse("1278 is D");
+		ia.doAnalyse("hnga is C");
+		ia.doAnalyse("mpor is D");
+		ia.doAnalyse("atre is M");
+		//ia.doAnalyse("#*&! is C");
 		
 		ia.doAnalyse("glob glob Silver is 34 Credits");
 		ia.doAnalyse("glob prok Gold is 57800 Credits");
@@ -35,8 +38,9 @@ public class TestInputAnalzer {
 		assertEquals('V', ia.getAnalyseResult().getRomanSymbol("prok").charValue());
 		assertEquals('X', ia.getAnalyseResult().getRomanSymbol("pish").charValue());
 		assertEquals('L', ia.getAnalyseResult().getRomanSymbol("tegj").charValue());
-		assertEquals('D', ia.getAnalyseResult().getRomanSymbol("1278").charValue());
-		assertEquals('C', ia.getAnalyseResult().getRomanSymbol("#*&!").charValue());
+		assertEquals('C', ia.getAnalyseResult().getRomanSymbol("hnga").charValue());
+		assertEquals('D', ia.getAnalyseResult().getRomanSymbol("mpor").charValue());
+		assertEquals('M', ia.getAnalyseResult().getRomanSymbol("atre").charValue());
 	}
 	
 	/**
@@ -67,10 +71,12 @@ public class TestInputAnalzer {
 		ia.doAnalyse("how many Credits is glob prok Silver ?");
 		ia.doAnalyse("how many Credits is glob prok Gold ?");
 		ia.doAnalyse("how many Credits is glob prok Iron ?");
+		//ia.doAnalyse("how many Silver is glob Gold ?");
 		
 		assertEquals("glob prok Silver is 68 Credits", ia.getAnalyseResult().pollAnswer());
 		assertEquals("glob prok Gold is 57800 Credits", ia.getAnalyseResult().pollAnswer());
 		assertEquals("glob prok Iron is 782 Credits", ia.getAnalyseResult().pollAnswer());
+		//assertEquals("glob Gold is 850 Silver", ia.getAnalyseResult().pollAnswer());
 	}
 	
 	/**

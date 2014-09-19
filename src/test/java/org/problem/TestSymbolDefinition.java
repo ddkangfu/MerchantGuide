@@ -119,20 +119,16 @@ public class TestSymbolDefinition {
 	public void testValidateSymbolsStr() {
 		try {
 			SymbolDefinition.validateSymbolsStr("");
+			fail("validateSymbolsStr() should throw an exception if Symbol string is null or blank.");
 		} catch(Exception ex) {
 			assertEquals("Symbol string is null or blank.", ex.getMessage());
 		}
 		
 		try {
 			SymbolDefinition.validateSymbolsStr("XBV");
+			fail("validateSymbolsStr() should throw an exception if 'B' is included in symbolstr.");
 		} catch(Exception ex) {
 			assertEquals("'B' is invalid symbol.", ex.getMessage());
-		}
-		
-		try {
-			SymbolDefinition.validateSymbolsStr("XV");
-		} catch(Exception ex) {
-			assertTrue(ex == null);
 		}
 	}
 }

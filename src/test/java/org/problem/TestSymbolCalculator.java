@@ -16,6 +16,7 @@ public class TestSymbolCalculator {
 	public void testNormal() {
 		try {
 			SymbolCalculator.getSymbolStrValue("");
+			fail("getSymbolStrValue() should throw an exception if symbolstr is blank string.");
 		} catch(Exception ex) {
 			assertEquals("Symbol string is null or blank.", ex.getMessage());
 		}
@@ -23,6 +24,7 @@ public class TestSymbolCalculator {
 		//测试无效的符号
 		try {
 			SymbolCalculator.getSymbolStrValue("MBC");
+			fail("getSymbolStrValue() should throw an exception if symbolstr include invalid symbol.");
 		} catch(Exception ex) {
 			assertEquals("'B' is invalid symbol.", ex.getMessage());
 		}
@@ -42,6 +44,7 @@ public class TestSymbolCalculator {
 		//不允许重复的字符不能重复
 		try {
 			SymbolCalculator.getSymbolStrValue("LLVI");
+			fail("getSymbolStrValue() should throw an exception if unrepeatable symbol is repeated.");
 		} catch(Exception ex) {
 			assertEquals("'L' can't be repeated.", ex.getMessage());
 		}
@@ -57,6 +60,7 @@ public class TestSymbolCalculator {
 		//不允许连续重复四次
 		try {
 			SymbolCalculator.getSymbolStrValue("MMMMVI");
+			fail("getSymbolStrValue() should throw an exception if symbol is repeated more than 3 times.");
 		} catch (Exception ex) {
 			assertEquals("'M' is repeated more than 3 times.", ex.getMessage());
 		}
@@ -68,6 +72,7 @@ public class TestSymbolCalculator {
 		//相减操作前只能有一个较小的可相减符号
 		try {
 			SymbolCalculator.getSymbolStrValue("XXXMVI");
+			fail("getSymbolStrValue() should throw an exception if 'X' appeared before 'M'.");
 		} catch (Exception ex) {
 			assertEquals("'M' can't be appeared after repeated 'X'", ex.getMessage());
 		}
@@ -81,6 +86,7 @@ public class TestSymbolCalculator {
 		//不允许重复的字符不能重复
 		try {
 			SymbolCalculator.getSymbolStrValue("MCLLVI");
+			fail("getSymbolStrValue() should throw an exception if 'L' be repeated.");
 		} catch(Exception ex) {
 			assertEquals("'L' can't be repeated.", ex.getMessage());
 		}
@@ -96,6 +102,7 @@ public class TestSymbolCalculator {
 		//不允许连续重复四次
 		try {
 			SymbolCalculator.getSymbolStrValue("MCCCCXI");
+			fail("getSymbolStrValue() should throw an exception if 'C' is repeated more than 3 times.");
 		} catch (Exception ex) {
 			assertEquals("'C' is repeated more than 3 times.", ex.getMessage());
 		}
@@ -107,6 +114,7 @@ public class TestSymbolCalculator {
 		//相减操作前不能有重复的较小符号
 		try {
 			SymbolCalculator.getSymbolStrValue("MXXDVI");
+			fail("getSymbolStrValue() should throw an exception if 'X' is appeared before 'D'.");
 		} catch (Exception ex) {
 			assertEquals("'D' can't be appeared after repeated 'X'", ex.getMessage());
 		}
@@ -120,6 +128,7 @@ public class TestSymbolCalculator {
 		//不允许重复的字符不能重复
 		try {
 			SymbolCalculator.getSymbolStrValue("MCLL");
+			fail("getSymbolStrValue() should throw an exception if 'L' be repeated.");
 		} catch(Exception ex) {
 			assertEquals("'L' can't be repeated.", ex.getMessage());
 		}
@@ -135,6 +144,7 @@ public class TestSymbolCalculator {
 		//不允许连续重复四次
 		try {
 			SymbolCalculator.getSymbolStrValue("MCCCC");
+			fail("getSymbolStrValue() should throw an exception if 'C' is repeated more than 3 times.");
 		} catch (Exception ex) {
 			assertEquals("'C' is repeated more than 3 times.", ex.getMessage());
 		}
@@ -142,6 +152,7 @@ public class TestSymbolCalculator {
 		//不允许连续重复四次
 		try {
 			SymbolCalculator.getSymbolStrValue("MMMM");
+			fail("getSymbolStrValue() should throw an exception if 'M' is repeated more than 3 times.");
 		} catch (Exception ex) {
 			assertEquals("'M' is repeated more than 3 times.", ex.getMessage());
 		}
@@ -153,6 +164,7 @@ public class TestSymbolCalculator {
 		//相减操作前不能有连续重复的较小符号
 		try {
 			SymbolCalculator.getSymbolStrValue("MXXD");
+			fail("getSymbolStrValue() should throw an exception if 'X' is appeared before 'D'.");
 		} catch (Exception ex) {
 			assertEquals("'D' can't be appeared after repeated 'X'", ex.getMessage());
 		}
@@ -166,6 +178,7 @@ public class TestSymbolCalculator {
 		//不处理不能相减的字符
 		try {
 			SymbolCalculator.getSymbolStrValue("DMXI");
+			fail("getSymbolStrValue() should throw an exception if 'D' is subtracted.");
 		} catch(Exception ex) {
 			assertEquals("'D' can never be subtracted.", ex.getMessage());
 		}
@@ -173,6 +186,7 @@ public class TestSymbolCalculator {
 		//只有IV,IX, XL, XC, CD, CM的情况下才能做相减操作
 		try {
 			SymbolCalculator.getSymbolStrValue("IL");
+			fail("getSymbolStrValue() should throw an exception if 'I' is subtracted from invaid symbols.");
 		} catch(Exception ex) {
 			assertEquals("'I' can be subtracted from 'V' and 'X' only.", ex.getMessage());
 		}
@@ -180,6 +194,7 @@ public class TestSymbolCalculator {
 		//每组相减操作都必须满足后一组的被减数小于前一组被减数的要求
 		try {
 			SymbolCalculator.getSymbolStrValue("IXCM");
+			fail("getSymbolStrValue() should throw an exception if 'M' is greater than 'X'.");
 		} catch(Exception ex) {
 			assertEquals("The 'M' is greater than 'X'.", ex.getMessage());
 		}
@@ -197,6 +212,7 @@ public class TestSymbolCalculator {
 		//不处理不能相减的字符
 		try {
 			SymbolCalculator.getSymbolStrValue("MLCXI");
+			fail("getSymbolStrValue() should throw an exception if 'L' is subtracted.");
 		} catch(Exception ex) {
 			assertEquals("'L' can never be subtracted.", ex.getMessage());
 		}
@@ -204,6 +220,7 @@ public class TestSymbolCalculator {
 		//只有IV,IX, XL, XC, CD, CM的情况下才能做相减操作
 		try {
 			SymbolCalculator.getSymbolStrValue("MIMV");
+			fail("getSymbolStrValue() should throw an exception if 'I' is subtracted from invaid symbols.");
 		} catch(Exception ex) {
 			assertEquals("'I' can be subtracted from 'V' and 'X' only.", ex.getMessage());
 		}
@@ -221,6 +238,7 @@ public class TestSymbolCalculator {
 		//不处理不能相减的字符
 		try {
 			SymbolCalculator.getSymbolStrValue("MLC");
+			fail("getSymbolStrValue() should throw an exception if 'L' is subtracted.");
 		} catch(Exception ex) {
 			assertEquals("'L' can never be subtracted.", ex.getMessage());
 		}
@@ -228,6 +246,7 @@ public class TestSymbolCalculator {
 		//只有IV,IX, XL, XC, CD, CM的情况下才能做相减操作
 		try {
 			SymbolCalculator.getSymbolStrValue("MIM");
+			fail("getSymbolStrValue() should throw an exception if 'I' is subtracted from invaid symbols.");
 		} catch(Exception ex) {
 			assertEquals("'I' can be subtracted from 'V' and 'X' only.", ex.getMessage());
 		}
