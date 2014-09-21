@@ -64,19 +64,26 @@ public class TestInputAnalzer {
 	}
 	
 	/**
-	 * 测试How many型命令，如 how many Credits is glob prok Silver ?
+	 * 测试How many Credits型命令，如 how many Credits is glob prok Silver ?
 	 */
 	@Test
-	public void testHowManyCommand() {
+	public void testHowManycreditsCommand() {
 		ia.doAnalyse("how many Credits is glob prok Silver ?");
 		ia.doAnalyse("how many Credits is glob prok Gold ?");
 		ia.doAnalyse("how many Credits is glob prok Iron ?");
-		//ia.doAnalyse("how many Silver is glob Gold ?");
 		
 		assertEquals("glob prok Silver is 68 Credits", ia.getAnalyseResult().pollAnswer());
 		assertEquals("glob prok Gold is 57800 Credits", ia.getAnalyseResult().pollAnswer());
 		assertEquals("glob prok Iron is 782 Credits", ia.getAnalyseResult().pollAnswer());
-		//assertEquals("glob Gold is 850 Silver", ia.getAnalyseResult().pollAnswer());
+	}
+	
+	/**
+	 * 测试How many型命令，如 how many Silver is glob Gold ?
+	 */
+	@Test
+	public void testHowManyCommand2() {
+		ia.doAnalyse("how many Silver is glob Gold ?");
+		assertEquals("glob Gold is 850 Silver", ia.getAnalyseResult().pollAnswer());
 	}
 	
 	/**

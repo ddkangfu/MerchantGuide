@@ -22,12 +22,14 @@ public class InputAnalyzer {
 			InputHandler definitionHandler = new DefinitionInputHandler(analyseResult);
 			InputHandler descriptionHandler = new DescriptionInputHandler(analyseResult);
 			InputHandler howmuchHandler = new HowMuchInputHandler(analyseResult);
+			InputHandler howmanyCreditsHandler = new HowManyCreditsHandler(analyseResult);
 			InputHandler howmanyHandler = new HowManyInputHandler(analyseResult);
 			InputHandler invalidHandler = new InvalidInputHandler(analyseResult);
 			
 			definitionHandler.setNextHandler(descriptionHandler);
 			descriptionHandler.setNextHandler(howmuchHandler);
-			howmuchHandler.setNextHandler(howmanyHandler);
+			howmuchHandler.setNextHandler(howmanyCreditsHandler);
+			howmanyCreditsHandler.setNextHandler(howmanyHandler);
 			howmanyHandler.setNextHandler(invalidHandler);
 			
 			definitionHandler.handleCommand(command);

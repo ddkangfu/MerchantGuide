@@ -43,7 +43,7 @@ public class TestSymbolAnalyzer {
 		assertEquals("<Normal>I", result.getEntry(2).toString());
 	}
 	
-	//should_return_repeated_entity_when_roman_letter_is_repeated_twice_and_both_of_the_at_the_end_of_lineø()
+	//should_return_repeated_entity_when_roman_letter_is_repeated_twice_and_both_of_the_at_the_end_of_line()
 	
 	/**
 	 * 被解析字符串起始位置出现连续重复字符的测试

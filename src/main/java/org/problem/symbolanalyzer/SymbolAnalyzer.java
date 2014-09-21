@@ -46,53 +46,12 @@ public class SymbolAnalyzer {
 	}
 	
 	/**
-	 * 处理符号字符串中的最后一个字符
+	 * 处理当符号字符串的当前处理字符大于下一个字符的情况
 	 */
-	private static void handleLastSymbol(SymbolAnalysisResult result, Symbol currentSymbol) {
-		if (result.getResultList().size() > 0) {
-			Symbol previousSymbol = result.getLastOne().getSymbols()[result.getLastOne().getSymbols().length - 1];
-			if (currentSymbol.compareTo(previousSymbol) < 0) {
-				greaterThanNextSymbol(result, currentSymbol);
-			} else if (currentSymbol.equals(previousSymbol)) {
-				result.getLastOne(RepeatSymbolAnalysisEntry.class).appendSymbol(currentSymbol);
-			} else {
-				SymbolAnalysisEntry lastEntry = result.getLastOne();
-				if (lastEntry != null && isRepeatAnalysisEntry(lastEntry)) {//说明最后一个是重复性
-					throw new SymbolParseException("'" + currentSymbol 
-							+ "' can't be appeared after repeated '" + previousSymbol + "'");
-				}
-				
-				throw new SymbolParseException("The '" + currentSymbol + "' is greater than previous one.");
-			}
-		} else {
-			greaterThanNextSymbol(result, currentSymbol);
-		}
-	}
-	
-	/**
-	 * 理当符号字符串的当前处理字符小于下一个字符的情况
-	 */
-	private static void lesserThanNextSymbol(SymbolAnalysisResult result,
-			Queue<Symbol> symbolQueue, Symbol currentSymbol, Symbol nextSymbol) {
-		if (!currentSymbol.isSubtractable()) {
-			throw new SymbolParseException("'" + currentSymbol + "' can never be subtracted.");
-		}
-		
-		if (!currentSymbol.canBeSubtracted(nextSymbol)) {
-			throw new SymbolParseException("'" + currentSymbol + "' can be subtracted from '" + currentSymbol.getSubtractSymbolList()[0] 
-					+ "' and '" + currentSymbol.getSubtractSymbolList()[1] + "' only.");
-		}
-		
-		SymbolAnalysisEntry lastSubtractEntry = result.getLastOne(SubtractSymbolAnalysisEntry.class);
-		//上一次相减操作的被减数小于此次相减操作的被减数，说明未按从大到小的排序，不作处理
-		if (lastSubtractEntry != null && lastSubtractEntry.getSymbols().length == 2
-				&& lastSubtractEntry.getSymbols()[1].compareTo(nextSymbol) < 0) {
-			throw new SymbolParseException("The '" + nextSymbol
-					+ "' is greater than '" + lastSubtractEntry.getSymbols()[1] + "'.");
-		}
-		
-		result.add(new SubtractSymbolAnalysisEntry(currentSymbol, symbolQueue.poll()));
-	}
+	private static void greaterThanNextSymbol(SymbolAnalysisResult result,
+			Symbol currentSymbol) {
+		result.add(new NormalSymbolAnalysisEntry(currentSymbol));
+	}	
 	
 	/**
 	 * 处理当符号字符串的当前处理字符等于下一个字符的情况
@@ -134,14 +93,55 @@ public class SymbolAnalyzer {
 			}
 		}
 	}
-
+	
 	/**
-	 * 处理当符号字符串的当前处理字符大于下一个字符的情况
+	 * 理当符号字符串的当前处理字符小于下一个字符的情况
 	 */
-	private static void greaterThanNextSymbol(SymbolAnalysisResult result,
-			Symbol currentSymbol) {
-		result.add(new NormalSymbolAnalysisEntry(currentSymbol));
-	}
+	private static void lesserThanNextSymbol(SymbolAnalysisResult result,
+			Queue<Symbol> symbolQueue, Symbol currentSymbol, Symbol nextSymbol) {
+		if (!currentSymbol.isSubtractable()) {
+			throw new SymbolParseException("'" + currentSymbol + "' can never be subtracted.");
+		}
+		
+		if (!currentSymbol.canBeSubtracted(nextSymbol)) {
+			throw new SymbolParseException("'" + currentSymbol + "' can be subtracted from '" + currentSymbol.getSubtractSymbolList()[0] 
+					+ "' and '" + currentSymbol.getSubtractSymbolList()[1] + "' only.");
+		}
+		
+		SymbolAnalysisEntry lastSubtractEntry = result.getLastOne(SubtractSymbolAnalysisEntry.class);
+		//上一次相减操作的被减数小于此次相减操作的被减数，说明未按从大到小的排序，不作处理
+		if (lastSubtractEntry != null && lastSubtractEntry.getSymbols().length == 2
+				&& lastSubtractEntry.getSymbols()[1].compareTo(nextSymbol) < 0) {
+			throw new SymbolParseException("The '" + nextSymbol
+					+ "' is greater than '" + lastSubtractEntry.getSymbols()[1] + "'.");
+		}
+		
+		result.add(new SubtractSymbolAnalysisEntry(currentSymbol, symbolQueue.poll()));
+	}	
+	
+	/**
+	 * 处理符号字符串中的最后一个字符
+	 */
+	private static void handleLastSymbol(SymbolAnalysisResult result, Symbol currentSymbol) {
+		if (result.getResultList().size() > 0) {
+			Symbol previousSymbol = result.getLastOne().getSymbols()[result.getLastOne().getSymbols().length - 1];
+			if (currentSymbol.compareTo(previousSymbol) < 0) {
+				greaterThanNextSymbol(result, currentSymbol);
+			} else if (currentSymbol.equals(previousSymbol)) {
+				result.getLastOne(RepeatSymbolAnalysisEntry.class).appendSymbol(currentSymbol);
+			} else {
+				SymbolAnalysisEntry lastEntry = result.getLastOne();
+				if (lastEntry != null && isRepeatAnalysisEntry(lastEntry)) {//说明最后一个是重复性
+					throw new SymbolParseException("'" + currentSymbol 
+							+ "' can't be appeared after repeated '" + previousSymbol + "'");
+				}
+				
+				throw new SymbolParseException("The '" + currentSymbol + "' is greater than previous one.");
+			}
+		} else {
+			greaterThanNextSymbol(result, currentSymbol);
+		}
+	}	
 	
 	/**
 	 * 判断分析后的Entry是否为可重复性的Entry，即RepeatAnalysisEntry
