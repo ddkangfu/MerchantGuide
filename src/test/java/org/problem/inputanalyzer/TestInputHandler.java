@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 
+import main.java.org.problem.exception.SymbolParseException;
 import main.java.org.problem.inputanalyzer.DefinitionInputHandler;
 import main.java.org.problem.inputanalyzer.DescriptionInputHandler;
+import main.java.org.problem.inputanalyzer.HowManyCreditsHandler;
 import main.java.org.problem.inputanalyzer.HowManyInputHandler;
 import main.java.org.problem.inputanalyzer.HowMuchInputHandler;
 import main.java.org.problem.inputanalyzer.InputAnalysisResult;
@@ -25,6 +27,7 @@ public class TestInputHandler {
 	private static InputHandler definitionHandler = new DefinitionInputHandler(analyseResult);
 	private static InputHandler descriptionHandler = new DescriptionInputHandler(analyseResult);
 	private static InputHandler howmuchHandler = new HowMuchInputHandler(analyseResult);
+	private static InputHandler howmanyCreditsHandler = new HowManyCreditsHandler(analyseResult);
 	private static InputHandler howmanyHandler = new HowManyInputHandler(analyseResult);
 	private static InputHandler invalidHandler = new InvalidInputHandler(analyseResult);
 	
@@ -32,7 +35,8 @@ public class TestInputHandler {
 	public static void beforeClass() {
 		definitionHandler.setNextHandler(descriptionHandler);
 		descriptionHandler.setNextHandler(howmuchHandler);
-		howmuchHandler.setNextHandler(howmanyHandler);
+		howmuchHandler.setNextHandler(howmanyCreditsHandler);
+		howmanyCreditsHandler.setNextHandler(howmanyHandler);
 		howmanyHandler.setNextHandler(invalidHandler);
 		
 		definitionHandler.handleCommand("glob is I");
@@ -45,6 +49,26 @@ public class TestInputHandler {
 	 */
 	@Test
 	public void testBaseMehtod() {
+		/*
+		InputHandler handler = new InputHandler(null) {
+			@Override
+			public void handleCommand(String command) throws SymbolParseException {
+
+			}
+			
+			@Override 
+			public String getSymbolsStrFromCommandMock(String command) {
+				return this.getSymbolsStrFromCommand(command);
+			}
+			
+			@Override
+			public String getProductNameMock(String command) {
+				return this.getProductName(command);
+			}
+		};
+		
+		String result = handler.getSymbolsStrFromCommandMock("pish tegj glob glob");
+		*/
 		try {
 			Method method = InputHandler.class.getDeclaredMethod("getSymbolsStrFromCommand", new Class[]{String.class});
 			method.setAccessible(true);
