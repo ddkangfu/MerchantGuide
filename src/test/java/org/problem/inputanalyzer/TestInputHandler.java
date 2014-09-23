@@ -17,6 +17,7 @@ import main.java.org.problem.inputanalyzer.InvalidInputHandler;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 /**
  * 类InputHandler及其子类的单元测试类
  *
@@ -30,6 +31,31 @@ public class TestInputHandler {
 	private static InputHandler howmanyCreditsHandler = new HowManyCreditsHandler(analyseResult);
 	private static InputHandler howmanyHandler = new HowManyInputHandler(analyseResult);
 	private static InputHandler invalidHandler = new InvalidInputHandler(analyseResult);
+	
+	/**
+	 * InputHandler的测试辅助内部类
+	 *
+	 */
+	class InputHandlerExtend extends InputHandler {
+		public InputHandlerExtend(InputAnalysisResult result) {
+			super(result);
+		}
+
+		@Override
+		public void handleCommand(String command) throws SymbolParseException {
+
+		}
+		
+		@Override 
+		public String getSymbolsStrFromCommand(String command) {
+			return super.getSymbolsStrFromCommand(command);
+		}
+		
+		@Override
+		public String getProductName(String command) {
+			return super.getProductName(command);
+		}
+	}
 	
 	@BeforeClass
 	public static void beforeClass() {
@@ -49,52 +75,25 @@ public class TestInputHandler {
 	 */
 	@Test
 	public void testBaseMehtod() {
-		/*
-		InputHandler handler = new InputHandler(null) {
-			@Override
-			public void handleCommand(String command) throws SymbolParseException {
-
-			}
-			
-			@Override 
-			public String getSymbolsStrFromCommandMock(String command) {
-				return this.getSymbolsStrFromCommand(command);
-			}
-			
-			@Override
-			public String getProductNameMock(String command) {
-				return this.getProductName(command);
-			}
-		};
 		
-		String result = handler.getSymbolsStrFromCommandMock("pish tegj glob glob");
-		*/
-		try {
-			Method method = InputHandler.class.getDeclaredMethod("getSymbolsStrFromCommand", new Class[]{String.class});
-			method.setAccessible(true);
-			Object result = method.invoke(definitionHandler, new Object[]{"pish tegj glob glob"});
-			assertEquals("XLII", result);
-			
-			result = method.invoke(definitionHandler, new Object[]{"bbbb tegj glob glob"});
-			assertEquals("LII", result);
-			
-			result = method.invoke(definitionHandler, new Object[]{""});
-			assertEquals("", result);
-			
-			
-			method = InputHandler.class.getDeclaredMethod("getProductName", new Class[]{String.class});
-			method.setAccessible(true);
-			result = method.invoke(definitionHandler, new Object[]{"glob glob Silver"});
-			assertEquals("Silver", result);
-			
-			result = method.invoke(definitionHandler, new Object[]{"pish tegj glob glob"});
-			assertEquals("", result);
-			
-			result = method.invoke(definitionHandler, new Object[]{""});
-			assertEquals("", result);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		InputHandlerExtend handler = new InputHandlerExtend(analyseResult);
+		String result = handler.getSymbolsStrFromCommand("pish tegj glob glob");
+		assertEquals("XLII", result);
+		
+		result = handler.getSymbolsStrFromCommand("bbbb tegj glob glob");
+		assertEquals("LII", result);
+		
+		result = handler.getSymbolsStrFromCommand("");
+		assertEquals("", result);
+		
+		result = handler.getProductName("glob glob Silver");
+		assertEquals("Silver", result);
+		
+		result = handler.getProductName("pish tegj glob glob");
+		assertEquals("", result);
+		
+		result = handler.getProductName("");
+		assertEquals("", result);
 	}
 	
 	/**
