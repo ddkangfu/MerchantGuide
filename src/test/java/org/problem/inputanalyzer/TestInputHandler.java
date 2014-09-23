@@ -1,9 +1,7 @@
 package test.java.org.problem.inputanalyzer;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import main.java.org.problem.exception.SymbolParseException;
 import main.java.org.problem.inputanalyzer.DefinitionInputHandler;
 import main.java.org.problem.inputanalyzer.DescriptionInputHandler;
